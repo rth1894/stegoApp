@@ -1,0 +1,10 @@
+out/
+build/
+target/
+
+*.class
+
+lib/javafx-sdk/
+
+lib/javafx-sdk/*
+!lib/javafx-sdk/.keep
