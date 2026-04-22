@@ -156,3 +156,19 @@ Blank UI:
 - resources not copied or classpath missing
 
 ---
+
+## Screenshots
+
+### Input & Upload
+Upload an image and provide the message to be hidden.
+![Input and Upload](images/input_and_upload.png)
+
+### Encoding Process
+The message is encrypted and embedded into the image using LSB encoding.
+![Encoding](images/encoding.png)
+
+### Decoding Process
+Extract and decrypt hidden data from an encoded image.
+![Decoding](images/decoding.png)
+
+---
