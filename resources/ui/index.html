@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Digital Steganography</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+  <div class="app">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo">S</div>
+        <div>
+          <div class="brand-name">StegoApp</div>
+          <div class="brand-sub">Digital Steganography</div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <button class="nav-btn active" onclick="switchTab('encode')" id="tab-encode">
+          Encode
+        </button>
+        <button class="nav-btn" onclick="switchTab('decode')" id="tab-decode">
+          Decode
+        </button>
+        <button class="nav-btn" onclick="switchTab('analysis')" id="tab-analysis">
+          Analysis
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">Java 21 &middot; JavaFX &middot; LSB</div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="content">
+
+      <!-- ── ENCODE SECTION ──────────────────────────────────────── -->
+      <section class="section active" id="section-encode">
+        <div class="section-header">
+          <h1 class="section-title">Hide a Message</h1>
+          <p class="section-desc">Embed an encrypted secret inside an image using LSB steganography.</p>
+        </div>
+
+        <div class="panel-grid">
+
+          <div class="panel">
+            <div class="field-group">
+              <label class="field-label">Cover Image</label>
+              <div class="upload-zone" id="encode-upload-zone" onclick="triggerUpload('encode')">
+                <input type="file" id="encode-image-input" accept="image/*" style="display:none"
+                       onchange="handleImageUpload(this, 'encode')"/>
+                <div class="upload-prompt" id="encode-upload-prompt">
+                  <div class="upload-icon-box">IMG</div>
+                  <span>Click to upload image</span>
+                  <span class="upload-hint">PNG &middot; JPG &middot; JPEG supported</span>
+                </div>
+                <img class="image-preview" id="encode-preview" src="" alt="preview"/>
+              </div>
+
+              <div class="capacity-bar" id="encode-capacity-bar" style="display:none">
+                <div class="capacity-label">
+                  <span>Capacity</span>
+                  <span id="encode-capacity-text">0 / 0 chars</span>
+                </div>
+                <div class="capacity-track">
+                  <div class="capacity-fill" id="encode-capacity-fill" style="width:0%"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label">
+                Secret Message
+                <span class="char-counter" id="encode-char-counter">0 / 500</span>
+              </label>
+              <textarea
+                class="textarea"
+                id="encode-message"
+                placeholder="Type your secret message here..."
+                maxlength="500"
+                oninput="updateCharCounter()"
+              ></textarea>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label">Password</label>
+              <div class="input-wrapper">
+                <input type="password" class="input" id="encode-password" placeholder="Enter encryption password"/>
+                <button class="toggle-pw" onclick="togglePassword('encode-password')">&#9679;</button>
+              </div>
+            </div>
+
+            <button class="btn btn-primary" id="encode-btn" onclick="encodeMessage()">
+              Encode &amp; Save
+            </button>
+
+            <button class="btn btn-clear" onclick="clearSection('encode')">
+              Clear
+            </button>
+          </div>
+
+          <div class="panel">
+            <div class="field-label">Output</div>
+            <div class="result-box" id="encode-result">
+              <div class="result-empty">
+                <div class="result-empty-icon">IMG</div>
+                <p>Stego-image will appear here after encoding.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ── DECODE SECTION ──────────────────────────────────────── -->
+      <section class="section" id="section-decode">
+        <div class="section-header">
+          <h1 class="section-title">Reveal a Message</h1>
+          <p class="section-desc">Extract and decrypt a hidden message from a stego-image.</p>
+        </div>
+
+        <div class="panel-grid">
+
+          <div class="panel">
+            <div class="field-group">
+              <label class="field-label">Stego Image</label>
+              <div class="upload-zone" id="decode-upload-zone" onclick="triggerUpload('decode')">
+                <input type="file" id="decode-image-input" accept="image/*" style="display:none"
+                       onchange="handleImageUpload(this, 'decode')"/>
+                <div class="upload-prompt" id="decode-upload-prompt">
+                  <div class="upload-icon-box">IMG</div>
+                  <span>Click to upload stego-image</span>
+                  <span class="upload-hint">Must be the encoded PNG output</span>
+                </div>
+                <img class="image-preview" id="decode-preview" src="" alt="preview"/>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label">Password</label>
+              <div class="input-wrapper">
+                <input type="password" class="input" id="decode-password" placeholder="Enter decryption password"/>
+                <button class="toggle-pw" onclick="togglePassword('decode-password')">&#9679;</button>
+              </div>
+            </div>
+
+            <button class="btn btn-primary" id="decode-btn" onclick="decodeMessage()">
+              Decode Message
+            </button>
+            <button class="btn btn-clear" onclick="clearSection('decode')">
+              Clear
+            </button>
+          </div>
+
+          <div class="panel">
+            <div class="field-label">Revealed Message</div>
+            <div class="result-box" id="decode-result">
+              <div class="result-empty">
+                <div class="result-empty-icon">TXT</div>
+                <p>Decrypted message will appear here.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ── ANALYSIS SECTION ────────────────────────────────────── -->
+      <section class="section" id="section-analysis">
+        <div class="section-header">
+          <h1 class="section-title">Image Analysis</h1>
+          <p class="section-desc">Check capacity and compare original vs stego-image pixel differences.</p>
+        </div>
+
+        <div class="panel-grid">
+
+          <div class="panel">
+            <div class="field-group">
+              <label class="field-label">Upload Image to Analyse</label>
+              <div class="upload-zone" id="analysis-upload-zone" onclick="triggerUpload('analysis')">
+                <input type="file" id="analysis-image-input" accept="image/*" style="display:none"
+                       onchange="handleImageUpload(this, 'analysis')"/>
+                <div class="upload-prompt" id="analysis-upload-prompt">
+                  <div class="upload-icon-box">IMG</div>
+                  <span>Click to upload image</span>
+                  <span class="upload-hint">Any image format</span>
+                </div>
+                <img class="image-preview" id="analysis-preview" src="" alt="preview"/>
+              </div>
+            </div>
+
+            <button class="btn btn-secondary" onclick="analyseImage()">
+              Run Analysis
+            </button>
+
+            <button class="btn btn-clear" onclick="clearSection('analysis')">
+              Clear
+            </button>
+          </div>
+
+          <div class="panel">
+            <div class="field-label">Analysis Results</div>
+            <div class="stats-grid" id="analysis-stats">
+              <div class="stat-card">
+                <div class="stat-value" id="stat-width">--</div>
+                <div class="stat-label">Width (px)</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-value" id="stat-height">--</div>
+                <div class="stat-label">Height (px)</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-value" id="stat-capacity">--</div>
+                <div class="stat-label">Max Chars</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-value" id="stat-pixels">--</div>
+                <div class="stat-label">Total Pixels</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

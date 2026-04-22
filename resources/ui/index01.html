@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Digital Steganography</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #0d0f14;
+      --surface: #151820;
+      --border:  #1f2433;
+      --accent:  #4f8ef7;
+      --accent2: #7c5cfc;
+      --text:    #e2e8f8;
+      --muted:   #5a6380;
+      --success: #3ecf8e;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      padding: 40px;
+    }
+
+    .header { text-align: center; }
+    .header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .header p { margin-top: 8px; color: var(--muted); font-size: 0.9rem; }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 36px;
+      width: 100%;
+      max-width: 540px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .status-row { display: flex; align-items: center; gap: 12px; font-size: 0.9rem; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .dot.green  { background: var(--success); box-shadow: 0 0 6px var(--success); }
+    .dot.blue   { background: var(--accent);  box-shadow: 0 0 6px var(--accent);  }
+    .dot.purple { background: var(--accent2); box-shadow: 0 0 6px var(--accent2); }
+    .status-row span { color: var(--muted); }
+
+    hr { border: none; border-top: 1px solid var(--border); }
+
+    .modules { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; max-width: 540px; }
+    .module-chip {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .module-chip strong { color: var(--text); display: block; font-size: 0.82rem; }
+
+    .footer-note { font-size: 0.75rem; color: var(--muted); text-align: center; }
+    .footer-note span { color: var(--success); font-weight: 600; }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>🔐 Digital Steganography</h1>
+    <p>Java 21 · JavaFX · WebView · AES Encryption · LSB Embedding</p>
+  </div>
+
+  <div class="card">
+    <div class="status-row">
+      <div class="dot green"></div>
+      <div><strong>JavaFX Window</strong> <span>— launched successfully</span></div>
+    </div>
+    <div class="status-row">
+      <div class="dot blue"></div>
+      <div><strong>WebView</strong> <span>— HTML/CSS/JS rendering active</span></div>
+    </div>
+    <div class="status-row">
+      <div class="dot purple"></div>
+      <div><strong>Java ↔ JS Bridge</strong> <span>— ready to connect (Prompt 8)</span></div>
+    </div>
+    <hr/>
+    <div class="status-row">
+      <div class="dot green"></div>
+      <div><strong>Environment</strong> <span>— Java 21 LTS · VS Code</span></div>
+    </div>
+  </div>
+
+  <div class="modules">
+    <div class="module-chip"><span>🖼️</span><div><strong>Image Handler</strong>PNG · JPG · WEBP</div></div>
+    <div class="module-chip"><span>🔑</span><div><strong>AES Encryption</strong>javax.crypto</div></div>
+    <div class="module-chip"><span>👁️</span><div><strong>LSB Steganography</strong>BufferedImage</div></div>
+    <div class="module-chip"><span>📊</span><div><strong>Capacity Analysis</strong>Pre-input check</div></div>
+  </div>
+
+  <p class="footer-note">✅ Setup complete — <span>Prompt 1 passed.</span> Ready to build.</p>
+
+  <script>
+    console.log("✅ JavaScript running inside JavaFX WebView.");
+    // Prompt 8: window.javaConnector will be injected via JSObject bridge
+  </script>
+
+</body>
+</html>
